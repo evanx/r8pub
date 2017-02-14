@@ -3,33 +3,13 @@
 
 NodeJS HTTP server to publish content in Redis.
 
-<img src="https://raw.githubusercontent.com/evanx/r8pub/master/docs/readme/Brian_Kernighan_json.png"/>
+<img src="https://raw.githubusercontent.com/evanx/r8pub/master/docs/readme/r8pub.png"/>
 
 Initial prototype based off https://github.com/evanx/bwk-publisher
 
 ## Use case
 
-We publish adhoc JSON content to the webserver via Redis:
-```
-cat test/Brian_Kernighan.json |
-  redis-cli -p 6333 -x set db:people:Brian_Kernighan:json
-```
-where we have an `spiped` tunnel from `localhost:6333` to a cloud-based Redis instance.
-
-This service connects to that Redis instance, and is exposed via Nginx:
-```
-server {
-   listen 443 ssl;
-   server_name evanx.webserva.com;
-   ssl_certificate /etc/letsencrypt/live/evanx.webserva.com/fullchain.pem;
-   ssl_certificate_key /etc/letsencrypt/live/evanx.webserva.com/privkey.pem;
-   location /db {
-     proxy_pass http://localhost:8841;
-   }
-}
-```
-
-Try: https://evanx.webserva.com/db/people/Brian_Kernighan
+We publish JSON content in Redis, or archived to disk by https://github.com/evanx/r8
 
 ## Config
 
@@ -45,7 +25,7 @@ module.exports = {
         },
         httpPort: {
             description: 'the HTTP port',
-            default: 8841
+            default: 8861
         },
         redisHost: {
             description: 'the Redis host',
@@ -99,6 +79,19 @@ See `test/demo.sh` https://github.com/evanx/r8pub/blob/master/test/demo.sh
 - two `spiped` containers to test encrypt/decrypt tunnels
 - the prebuilt image `evanxsummers/r8pub`
 
-### Thanks for reading
 
+### Appication archetype
+
+Incidently `lib/index.js` uses the `redis-koa-app-rpf` application archetype.
+```
+require('redis-koa-app-rpf')(require('./spec'), require('./main'));
+```
+where we extract the `config` from `process.env` according to the `spec` and invoke our `main` function.
+
+See https://github.com/evanx/redis-koa-app-rpf.
+
+This provides lifecycle boilerplate to reuse across similar applications.
+
+<hr>
 https://twitter.com/@evanxsummers
+

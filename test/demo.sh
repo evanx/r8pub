@@ -38,7 +38,7 @@
   appHost=`docker inspect $appContainer |
     grep '"IPAddress":' | tail -1 | sed 's/.*"\([0-9\.]*\)",/\1/'`
   sleep 2
-  curl -s $appHost:8841/db/people/Brian_Kernighan
+  curl -s $appHost:8861/db/people/Brian_Kernighan
   docker rm -f test-r8-redis test-r8-app test-r8-decipher test-r8-encipher
   docker network rm test-r8-network
 )
