@@ -15,10 +15,10 @@
     "fs-blob-store": "^5.2.1",
     "lodash": "^4.17.14",
     "mkdirp": "^0.5.1",
-    "redis-koa-app-rpf": "^0.5.9"
+    "redis-koa-app-rpf": "^0.4.1"
   },
   "devDependencies": {
-    "eslint": "^6.0.1"
+    "eslint": "^8.7.0"
   },
   "repository": {
     "type": "git",
